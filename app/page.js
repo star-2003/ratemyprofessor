@@ -1,7 +1,9 @@
 'use client'
-import Image from "next/image";
-import { Box, Button, Stack, TextField } from '@mui/material'
+import './globals.css'; 
+import { Box, Button, Stack, TextField, Typography, Paper} from '@mui/material'
 import { useState } from 'react'
+import Image from 'next/image';
+import Markdown from 'react-markdown'
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -52,6 +54,7 @@ export default function Home() {
   
 
   return (
+    
     <Box
       width="100vw"
       height="100vh"
@@ -59,23 +62,29 @@ export default function Home() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      bgcolor={'whitesmoke'}
+      sx={{
+        backgroundImage: 'url(./assets/background.jpg)', // Replace with your image path
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        bgcolor: 'rgba(0, 0, 0, 0.7)' // Dark overlay effect
+      }}
     >
-      <Stack
-        direction={'column'}
-        width="500px"
-        height="700px"
-        border="1px solid black"
-        p={2}
-        spacing={3}
-      >
+      <Paper elevation={3} sx={{ width: 500, height: 700, p: 3, borderRadius: 4, bgcolor: '#dbd9d9' }}>
         <Stack
           direction={'column'}
           spacing={2}
-          flexGrow={1}
-          overflow={'auto'}
-          maxHeight="100%"
+          height="100%"
         >
+          <Typography variant="h5" color="#645a51 " textAlign="center">
+            Rate My Professor Chatbot
+          </Typography>
+          <Stack
+            direction={'column'}
+            spacing={2}
+            flexGrow={1}
+            overflow="auto"
+            sx={{ maxHeight: "100%", p: 1, bgcolor: '#ccc', borderRadius: 2 }}
+          >
           {messages.map((message, index) => (
             <Box
               key={index}
@@ -87,30 +96,37 @@ export default function Home() {
               <Box
                 bgcolor={
                   message.role === 'assistant'
-                    ? 'primary.main'
-                    : 'secondary.main'
+                    ? '#a99a8e '
+                    : '#dcba9c '
                 }
                 color="white"
                 borderRadius={16}
                 p={3}
+                maxWidth="75%"
               >
-                {message.content}
+               <Markdown>{message.content}</Markdown>
               </Box>
+
             </Box>
+            
           ))}
+
         </Stack>
         <Stack direction={'row'} spacing={2}>
           <TextField
             label="Message"
             fullWidth
+            variant="outlined"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            sx={{ bgcolor: '#dbd9d9', borderRadius: 2, input: { color: 'black' }, label: { color: 'gray' } }}
           />
-          <Button variant="contained" onClick={sendMessage}>
+          <Button variant="contained" color="primary" onClick={sendMessage} sx={{ borderRadius: 2 }}>
             Send
           </Button>
         </Stack>
       </Stack>
+      </Paper>
     </Box>
   );
 }

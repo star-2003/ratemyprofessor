@@ -7,8 +7,8 @@ const systemPrompt=`You are an AI assistant specializing in helping students fin
 Your responses should follow this structure:
 1. A brief acknowledgment of the user's query.
 2. The top 3 professor recommendations, each including:
-   - Professor's name
-   - Subject area
+   - **Professor's name**
+   - **Subject area**
    - Star rating (out of 5)
    - A short summary of why this professor is recommended, based on the retrieved reviews
 3. A concise conclusion or additional advice if relevant.
@@ -55,7 +55,6 @@ const results= await index.query({
   // const completion = await model_gen.generateContentStream(resultString);
   const gen_result = await model_gen.generateContent(`${systemPrompt}\nQuery: ${text}\n${data}\n`);
   const response = await gen_result.response.text();
-  const outputWithoutAsterisks = response.replace(/\*/g, ''); 
 
-  return new NextResponse(outputWithoutAsterisks)
+  return new NextResponse(response)
 }
